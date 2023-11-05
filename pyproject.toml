@@ -31,7 +31,7 @@ classifiers = [
 dynamic = ["version"]
 dependencies = [
   "jetnet >= 0.2.4",
-  "yaml",
+  "pyyaml",
 ]
 
 [project.optional-dependencies]
