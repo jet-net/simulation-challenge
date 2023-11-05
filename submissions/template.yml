@@ -1,0 +1,16 @@
+name: Template
+authors: Author 1, Author 2
+affiliation: Affiliation 1, Affiliation 2
+
+samples_paths:
+  # paths to samples for the different datasets and classes
+  jetnet:
+    g30: https://zenodo.org/api/records/6975118/draft/files/g.hdf5/content
+
+
+# path to container with trained model
+container_path: ""
+# command to run inference of the model, will need some argument to specify the dataset
+inference_command: ""
+
+model_repository: ""
