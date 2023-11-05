@@ -29,7 +29,9 @@ classifiers = [
   "Typing :: Typed",
 ]
 dynamic = ["version"]
-dependencies = []
+dependencies = [
+  "jetnet >= 0.2.4",
+]
 
 [project.optional-dependencies]
 test = [
@@ -131,6 +133,9 @@ extend-select = [
 ]
 ignore = [
   "PLR",    # Design related pylint codes
+  "T201",
+  "EM101",
+  "EM102",
 ]
 isort.required-imports = ["from __future__ import annotations"]
 # Uncomment if using a _compat.typing backport
