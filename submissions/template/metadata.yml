@@ -14,4 +14,4 @@ container_path: ""
 # command to run inference of the model, will need some argument to specify the dataset
 inference_command: ""
 
-model_repository: ""
+model_repository: " "
