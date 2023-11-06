@@ -13,6 +13,8 @@ from .data import Samples
 
 @dataclass
 class Submission:
+    """Class storing information about submissions."""
+
     name: str = None
     authors: list[str] = None
     affiliations: list[str] = None
@@ -23,6 +25,7 @@ class Submission:
     model_repository: str = None
 
     def __post_init__(self):
+        """Convert gen_samples dict to Samples objects and metadata for downloading."""
         self.samples = {}
         for dataset in self.gen_samples:
             # TODO: add checks for valid datasets?
@@ -37,9 +40,7 @@ class Submission:
                 )
 
 
-def load_submission(
-    submission_dir: str, submission_name: str, gen_datasets_dir: str
-) -> dict:
+def load_submission(submission_dir: str, submission_name: str, gen_datasets_dir: str) -> dict:
     """Loads the metadata for the given submission.
 
     Args:

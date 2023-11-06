@@ -11,7 +11,7 @@ def evaluate(
     num_w1_eval_samples: int = 50_000,
     num_w1_batches: int = 5,
 ) -> dict:
-    """Evaluates the given generated samples against the real samples.
+    """Evaluates the given generated samples against the real samples using the JetNet library.
 
     Args:
         real_samples (np.ndarray): Array of shape ``(num_samples, num_particles, num_features)`` containing the real data.
@@ -23,6 +23,7 @@ def evaluate(
 
     scores = {}
 
+    # W1 distance between mass distributions
     scores["w1m"] = evaluation.w1m(
         real_samples.samples,
         gen_samples.samples,
@@ -31,6 +32,7 @@ def evaluate(
         return_std=True,
     )
 
+    # W1 distance between particle feature distributions
     scores["w1p"] = evaluation.w1p(
         real_samples.samples,
         gen_samples.samples,
@@ -40,6 +42,7 @@ def evaluate(
         return_std=True,
     )
 
+    # FPD and KPD using EFPs
     scores["fpd"] = evaluation.fpd(real_samples.get_efps(), gen_samples.get_efps())
     scores["kpd"] = evaluation.kpd(real_samples.get_efps(), gen_samples.get_efps())
 

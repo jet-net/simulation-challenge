@@ -15,6 +15,21 @@ _valid_datasets = {"jetnet": ["g30"]}  # TODO: more datasets
 
 @dataclass
 class Samples:
+    """
+    Class for jet samples. Downloads, loads, and stores the samples. Also calculates and stores EFPs.
+
+    Args:
+        dataset (str): dataset of the samples, e.g. "jetnet".
+        data_class (str): jet type of the sample, e.g. "g30".
+        download_url (str): URL to download samples.
+        download_path (str): Path to downloaded samples.
+        downloaded (bool): Whether the samples have been downloaded.
+        md5 (optional, str): MD5 hash of the downloaded samples, to verify integrity of download.
+        samples (np.ndarray): Array of shape ``(num_samples, num_particles, num_features)`` containing the samples.
+        efps_path (str): Path to EFPs numpy file.
+        efps (np.ndarray): Array of shape ``(num_samples, num_efps)`` containing the calculated EFPs.
+    """
+
     dataset: str = None
     data_class: str = None
 
@@ -28,6 +43,7 @@ class Samples:
     efps: np.ndarray = None
 
     def __post_init__(self):
+        """Loads EFPs if they exist."""
         if Path(self.download_path).exists():
             self.downloaded = True
 
@@ -45,9 +61,7 @@ class Samples:
             raise RuntimeError("Samples need to be downloaded before loading.")
 
         if self.md5 is not None:
-            match_md5, fmd5 = jetnet.datasets.utils._check_md5(
-                self.download_path, self.md5
-            )
+            match_md5, fmd5 = jetnet.datasets.utils._check_md5(self.download_path, self.md5)
             if not match_md5:
                 raise RuntimeError("Downloaded file MD5 does not match expected MD5.")
 
@@ -66,9 +80,7 @@ class Samples:
         print(f"Downloading to {self.download_path}.")
 
         Path.mkdir(Path(self.download_path).parent, exist_ok=True, parents=True)
-        jetnet.datasets.utils.download_progress_bar(
-            self.download_url, self.download_path
-        )
+        jetnet.datasets.utils.download_progress_bar(self.download_url, self.download_path)
         self.downloaded = True
 
         self.load_samples()
@@ -113,6 +125,7 @@ def get_real_samples(
     }
 
     if dataset == "jetnet":
+        # dataset-specific args
         data_args |= {"particle_features": ["etarel", "phirel", "ptrel"]}
 
         if data_class.endswith("30"):
@@ -124,6 +137,7 @@ def get_real_samples(
         pf = pf[-num_samples:]
         real_samples = Samples(
             dataset=dataset,
+            # remove "30" to match jetnet file naming convention
             data_class=data_class if data_class.endswith("150") else data_class[:-2],
             samples=pf,
             download_path=f"{data_dir}/{dataset}/{data_class}.hdf5",

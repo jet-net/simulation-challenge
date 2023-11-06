@@ -7,8 +7,6 @@ import simulation_challenge as sc
 from simulation_challenge.data import Samples
 from simulation_challenge.submission import Submission
 
-# TODO: implement CI to run this script on all submissions
-
 
 def evaluate_submission(sub: Submission, real_datasets_dir: str):
     """Evaluates the given submission for all samples provided.
@@ -22,18 +20,17 @@ def evaluate_submission(sub: Submission, real_datasets_dir: str):
 
     results = {}
 
+    # go through each dataset and class in submission
     for dataset, data_classes in sub.samples.items():
         results[dataset] = {}
         for data_class, gen_samples in data_classes.items():
-            real_samples: Samples = sc.data.get_real_samples(
-                dataset, data_class, real_datasets_dir
-            )
+            # load real samples
+            real_samples: Samples = sc.data.get_real_samples(dataset, data_class, real_datasets_dir)
+            # download generated samples
             gen_samples.download()
 
             print(f"Evaluating {dataset} {data_class}...")
-            results[dataset][data_class] = sc.evaluate.evaluate(
-                real_samples, gen_samples
-            )
+            results[dataset][data_class] = sc.evaluate.evaluate(real_samples, gen_samples)
 
     print(results)
 
@@ -70,13 +67,12 @@ if __name__ == "__main__":
         type=str,
     )
 
-    parser.add_argument(
-        "--evaluate", action=argparse.BooleanOptionalAction, default=False
-    )
+    parser.add_argument("--evaluate", action=argparse.BooleanOptionalAction, default=False)
 
     args = parser.parse_args()
 
     subs = []
+    # load all submissions in submissions directory
     if args.submission == "all":
         for submission in os.listdir(args.submission_dir):
             subs.append(
@@ -84,6 +80,7 @@ if __name__ == "__main__":
                     args.submission_dir, submission, args.gen_datasets_dir
                 )
             )
+    # load specific submission
     else:
         subs.append(
             sc.submission.load_submission(
