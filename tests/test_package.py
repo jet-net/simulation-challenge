@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import importlib.metadata
 
-import cookiecutter_test as m
+import simulation_challenge as m
 
 
 def test_version():
-    assert importlib.metadata.version("cookiecutter_test") == m.__version__
+    assert importlib.metadata.version("simulation_challenge") == m.__version__
