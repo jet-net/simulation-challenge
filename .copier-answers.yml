@@ -1,0 +1,12 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: 2023.10.27
+_src_path: gh:scientific-python/cookie
+backend: hatch
+email: rkansal@cern.ch
+full_name: Raghav Kansal
+license: MIT
+org: jet-net
+project_name: cookiecutter-test
+project_short_description: 2023 Jet Simulation Challenge
+url: https://github.com/jet-net/simulation-challenge
+vcs: true
