@@ -43,4 +43,3 @@
 - [ ] Website for results
 - [ ] Initial paper / advertisement
 - [ ] Journal paper
-
